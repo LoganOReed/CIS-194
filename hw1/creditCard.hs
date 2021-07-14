@@ -9,7 +9,8 @@
 toDigits :: Integer -> [Integer]
 
 toDigits num 
-    | num < 10  = [num]
+    | num < 0   = [0]
+    | num <= 10 = [num]
     | otherwise = toDigits (num `div` 10) ++ [num `mod` 10]
     
 
@@ -17,5 +18,13 @@ toDigits num
 toDigitsRev :: Integer -> [Integer]
 
 toDigitsRev num 
-    | num < 10  = [num]
+    | num < 0   = [0]
+    | num <= 10  = [num]
     | otherwise = num `mod` 10 : toDigitsRev (num `div` 10)
+
+doubleEveryOther :: [Integer] -> [Integer]
+
+doubleEveryOther xs
+    | length ns >= 2 = let (a:b:c) = ns in doubleEveryOther (reverse c) ++ b+b:[a]
+    | otherwise      = xs
+    where ns = reverse xs
