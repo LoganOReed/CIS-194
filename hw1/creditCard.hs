@@ -24,7 +24,19 @@ toDigitsRev num
 
 doubleEveryOther :: [Integer] -> [Integer]
 
-doubleEveryOther xs
-    | length ns >= 2 = let (a:b:c) = ns in doubleEveryOther (reverse c) ++ b+b:[a]
-    | otherwise      = xs
-    where ns = reverse xs
+doubleEveryOther [] = []
+doubleEveryOther (x:[]) = [x]
+doubleEveryOther xs = let (a:b:c) = reverse xs
+                      in doubleEveryOther (reverse c) ++ b+b:[a]
+
+sumDigits :: [Integer] -> Integer
+-- need recursion to be able to handle any sized int --
+-- have first value be the accumulator and add next value to first if lt 10, else add mod 10 and recurse --
+
+sumDigits [] = 0
+sumDigits (x:[]) = x
+sumDigits (x:y:ns)
+    | x > 10          = sumDigits $ x `mod` 10:x `div` 10:y:ns
+    | otherwise       = if y <= 10 
+                        then sumDigits $ x+y:ns
+                        else sumDigits $ x+(y `mod` 10):y `div` 10:ns
