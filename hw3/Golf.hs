@@ -39,5 +39,12 @@ fullIndexSelect xs n =
 -- use list comprehension and fullIndexSelect to construct the multi list
 skips :: [a] -> [[a]]
 
+--skips xs =
+--   [fullIndexSelect (indexList xs) n | n <- [1 .. length xs]]
+
+--skips xs =
+--  map (fullIndexSelect (zip [1 .. ] xs) ) [1 .. length xs]
+
+-- the top iteration makes most sense, map is just syntactic sugar for set builder
 skips xs =
-   [fullIndexSelect (indexList xs) n | n <- [1 .. length xs]]
+    map (fullIndexSelect (zip [1 .. ] xs) ) [1 .. length xs]
