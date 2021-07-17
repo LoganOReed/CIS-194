@@ -52,5 +52,21 @@ skips xs =
 
 
 --------------------------
--- ASSIGNMENT TWO:
---  
+-- ASSIGNMENT TWO: LOCAL MAXIMA
+--  a function that takes a list and returns all 
+--      local maxima in order
+---------------------------
+
+-- pattern matches all triples and appends them if it's a local max
+localMaxima :: [Integer] -> [Integer]
+
+--localMaxima (a:b:c:xs) = 
+--    [a:b:c:[]] ++ localMaxima (b:c:xs)
+
+localMaxima (a:b:c:xs) = 
+    if a < b && c < b
+        then b:localMaxima (b:c:xs)
+        else localMaxima (b:c:xs)
+
+localMaxima _ =
+    []
