@@ -70,3 +70,22 @@ localMaxima (a:b:c:xs) =
 
 localMaxima _ =
     []
+
+
+
+---------------------------
+-- PROBLEM THREE: HISTOGRAM
+-- a function takes in a list of single digits and displays 
+--      their histogram graphically
+----------------------------
+
+starsSpace :: Int -> Int -> Char
+
+starsSpace cut n
+    | n > cut   = '*'
+    | otherwise = ' '
+
+histogram :: [Int] -> String
+
+histogram xs =
+    unlines $ reverse [ [starsSpace cut x | x <- xs] | cut <- [0 .. maximum xs] ]
