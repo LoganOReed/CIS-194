@@ -5,7 +5,7 @@ import Log
 
 -- Takes a validated string and returns a LogMessage type
 listToLogMessage :: [String] -> LogMessage
-
+    
 listToLogMessage ("I":xs) =
     LogMessage Info time str
     where
@@ -34,6 +34,13 @@ parseMessage :: String -> LogMessage
 
 parseMessage str =
     listToLogMessage $ words str
-    
 
+-- Parses an entire file
+parse :: String -> [LogMessage]
 
+parse str =
+    parseMessage taken : parse (unlines untaken)
+    where
+        lin = lines str
+        taken = head lin
+        untaken = drop 1 lin
