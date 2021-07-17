@@ -44,3 +44,36 @@ parse str =
         lin = lines str
         taken = head lin
         untaken = drop 1 lin
+
+-- BST PART OF THE ASSIGNMENT
+
+-- Adds a LogMessage into a binary search tree
+insert :: LogMessage -> MessageTree -> MessageTree
+
+insert (Unknown _) tree = 
+    tree
+
+insert msg@(LogMessage _ _ _) Leaf = 
+    Node Leaf msg Leaf
+
+insert msg@(LogMessage _ time _) (Node left (LogMessage _ nTime _) right)
+    | time < nTime = 
+        insert msg left
+    | otherwise    =
+        insert msg right
+
+insert _ tree = tree
+
+-- takes a list of messages and constructs a bst
+build :: [LogMessage] -> MessageTree
+
+build [] = Leaf
+build (x:xs) = insert x (build xs)
+
+-- takes a sorted message tree and returns the bst in order
+inOrder :: MessageTree -> [LogMessage]
+
+inOrder Leaf  = []
+
+inOrder (Node left msg right) = 
+    inOrder left ++ [msg] ++ inOrder right
