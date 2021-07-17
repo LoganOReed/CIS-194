@@ -27,7 +27,17 @@ indexSelect n xs =
     [snd (x,y) | (x,y) <- xs, x `mod` n == 0]
 -}
 
+
 indexSelect n xs =
     filter ((\x -> (x `mod` n) == 0).fst) xs
 
---skips :: [a] -> [[a]]
+
+fullIndexSelect :: [(Int,a)] -> Int -> [a]
+fullIndexSelect xs n =
+    snd . unzip $ filter ((== 0) . (flip mod n) . fst) xs
+
+-- use list comprehension and fullIndexSelect to construct the multi list
+skips :: [a] -> [[a]]
+
+skips xs =
+   [fullIndexSelect (indexList xs) n | n <- [1 .. length xs]]
