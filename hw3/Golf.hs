@@ -48,3 +48,9 @@ skips :: [a] -> [[a]]
 -- the top iteration makes most sense, map is just syntactic sugar for set builder
 skips xs =
     map (fullIndexSelect (zip [1 .. ] xs) ) [1 .. length xs]
+
+
+
+--------------------------
+-- ASSIGNMENT TWO:
+--  
