@@ -37,3 +37,29 @@ fun2' =
     . iterate (\x -> if even x 
                      then x `div` 2
                      else 3 * x + 1) 
+
+----------------------------------
+-- EXERCISE TWO:
+-- foldTree generates a balanced binary tree
+--      from a list of values using foldr
+----------------------------------
+
+data Tree a = Leaf
+            | Node Integer (Tree a) a (Tree a)
+    deriving (Show, Eq)
+    
+--foldTree :: [a] -> Tree a
+
+-----------------------------------
+-- EXERCISE THREE:
+-- a function that returns true iff an odd
+--      number of items in the list are true
+-----------------------------------
+
+xor :: [Bool] -> Bool
+xor = foldr 
+        (\x y ->    if x /= y
+                    then True
+                    else False)
+        False
+
