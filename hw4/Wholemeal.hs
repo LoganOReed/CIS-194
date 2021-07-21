@@ -2,8 +2,6 @@
 
 module Wholemeal where
 
-import Data.Foldable
-
 -----------------------------
 -- EXERCISE ONE:
 --  Reimplement the functions with wholemeal programming
@@ -21,4 +19,4 @@ fun1 (x:xs)
 
 fun1' :: [Integer] -> Integer
 
-fun1' = foldr 1 . filter even
+fun1' = foldr (*) 1 . map (\x -> x - 2) . filter even
