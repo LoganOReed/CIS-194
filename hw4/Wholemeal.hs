@@ -52,8 +52,7 @@ data Tree a = Leaf
 
 -----------------------------------
 -- EXERCISE THREE:
--- a function that returns true iff an odd
---      number of items in the list are true
+-- a bunch of functions defined using fold
 -----------------------------------
 
 xor :: [Bool] -> Bool
@@ -62,4 +61,7 @@ xor = foldr
                     then True
                     else False)
         False
+
+map' :: (a -> b) -> [a] -> [b]
+map' f = foldr (\x y -> f x : y) []
 
