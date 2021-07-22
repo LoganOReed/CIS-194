@@ -65,3 +65,9 @@ xor = foldr
 map' :: (a -> b) -> [a] -> [b]
 map' f = foldr (\x y -> f x : y) []
 
+------------------------------------
+-- EXERCISE FOUR
+-- Sieve of Sundaram
+------------------------------------
+
+--sieve :: Integer -> [Integer]
