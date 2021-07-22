@@ -12,9 +12,9 @@ import Parser
 -- Takes an ExprT and returns the int it
 --  evaluates to
 eval :: ExprT -> Integer
-eval (Lit x) = x
-eval (Add x y) = (eval x) + (eval y)
-eval (Mul x y) = (eval x) * (eval y)
+eval (ExprT.Lit x) = x
+eval (ExprT.Add x y) = (eval x) + (eval y)
+eval (ExprT.Mul x y) = (eval x) * (eval y)
 
 ------------------
 -- EXERCISE TWO --
@@ -28,17 +28,40 @@ evalStr :: String -> Maybe Integer
 evalStr str = case strExp of
     Just x ->  Just (eval x)
     Nothing  -> Nothing
-    where strExp = parseExp Lit Add Mul str
+    where strExp = parseExp ExprT.Lit ExprT.Add ExprT.Mul str
 
 --------------------
 -- EXERCISE THREE --
 --------------------
 
-class (Num a) => Expr a where
-    lit :: a -> a
-    lit x = x
+class Expr a where
+    lit :: Integer -> a
     add :: a -> a -> a
-    add x y = x + y
     mul :: a -> a -> a
-    mul x y = x * y
 
+instance Expr ExprT where
+    lit = ExprT.Lit
+    add = ExprT.Add
+    mul = ExprT.Mul
+
+reify :: ExprT -> ExprT
+reify = id
+
+-------------------
+-- EXERCISE FOUR --
+-------------------
+
+instance Expr Integer where
+    lit = id
+    add = (+)
+    mul = (*)
+
+instance Expr Bool where
+    lit x
+        | x > 0     = True
+        | otherwise = False
+    add = (||)
+    mul = (&&)
+
+check :: Integer -> Bool -> Bool
+check n b = mul (lit n) b
