@@ -30,3 +30,15 @@ evalStr str = case strExp of
     Nothing  -> Nothing
     where strExp = parseExp Lit Add Mul str
 
+--------------------
+-- EXERCISE THREE --
+--------------------
+
+class (Num a) => Expr a where
+    lit :: a -> a
+    lit x = x
+    add :: a -> a -> a
+    add x y = x + y
+    mul :: a -> a -> a
+    mul x y = x * y
+
