@@ -1,9 +1,13 @@
+{-# LANGUAGE TypeSynonymInstances #-}
+{-# LANGUAGE FlexibleInstances #-}
 {-# OPTIONS_GHC -Wall #-}
 
 module Calc where
 
 import ExprT
 import Parser
+import VarExprT
+import qualified Data.Map as M
 
 ------------------
 -- EXERCISE ONE --
@@ -84,7 +88,31 @@ instance Expr Mod7 where
 testExp :: Expr a => Maybe a
 testExp = parseExp lit add mul "(3 * -4) + 5"
 
+testInteger :: Maybe Integer
 testInteger = testExp :: Maybe Integer
+
+testBool :: Maybe Bool
 testBool    = testExp :: Maybe Bool
+
+testMM :: Maybe MinMax
 testMM      = testExp :: Maybe MinMax
+
+testSat :: Maybe Mod7
 testSat     = testExp :: Maybe Mod7
+
+------------------
+-- EXERCISE SIX --
+------------------
+
+-- type class to contain variables
+class HasVars a where
+    var :: String -> a
+
+-- instance of Expr that uses varexprt
+instance Expr VarExprT where
+    lit = VarExprT.Lit
+    add = VarExprT.Add
+    mul = VarExprT.Mul
+
+instance HasVars VarExprT where
+    var = VarExprT.Var
