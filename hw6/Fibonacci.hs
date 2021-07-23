@@ -38,13 +38,23 @@ fibs2 = fib2 0 1
 -- List that is forced to be infinite
 data Stream a = Cons a (Stream a)
 
--- helper to make a basic stream
-integralStream :: Integer -> Stream Integer
-integralStream n = Cons n (integralStream (n + 1))
-
 streamToList :: Stream a -> [a]
 streamToList (Cons x xs) = x : streamToList xs
 
 -- instance of show that allows us to show some of the stream
 instance Show a => Show (Stream a) where 
     show = show . take 20 . streamToList
+
+-------------------
+-- EXERCISE FOUR --
+-------------------
+
+-- helper to make a basic stream
+streamRepeat :: a -> Stream a
+streamRepeat n = Cons n (streamRepeat (n))
+
+streamMap :: (a -> b) -> Stream a -> Stream b
+streamMap f (Cons x y) = Cons (f x) (streamMap f y)
+
+streamFromSeed :: (a -> a) -> a -> Stream a
+streamFromSeed f n = Cons n (streamFromSeed f (f n))
