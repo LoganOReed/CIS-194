@@ -8,6 +8,7 @@ import ExprT
 import Parser
 import VarExprT
 import qualified Data.Map as M
+import Data.Maybe
 
 ------------------
 -- EXERCISE ONE --
@@ -116,3 +117,24 @@ instance Expr VarExprT where
 
 instance HasVars VarExprT where
     var = VarExprT.Var
+
+type MapExprT = M.Map String Integer -> Maybe Integer
+
+instance Expr MapExprT where
+    lit x = (\_ -> Just x)
+    add f g = \m -> case (isNothing (f m) || isNothing (g m)) of
+                    True -> Nothing
+                    _    -> Just (fromJust (f m) + fromJust (g m))
+    mul f g = \m -> case (isNothing (f m) || isNothing (g m)) of
+                    True -> Nothing
+                    _    -> Just (fromJust (f m) * fromJust (g m))
+    
+-- says variables can be interpreted as 
+--  functions from a mapping of var to Ints 
+--  to, possibly, integer values
+instance HasVars MapExprT where
+    var = M.lookup  -- a member function from Data.Map
+
+-- from assignment for testing
+withVars :: [(String, Integer)] -> MapExprT -> Maybe Integer
+withVars vs expr = expr $ M.fromList vs
