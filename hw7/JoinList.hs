@@ -48,3 +48,23 @@ indexJ n (Append _ x1 x2)
     | n <= 0           = Nothing
     | n <= (getSize (size (tag x1))) = indexJ n x1
     | otherwise        = indexJ (n - (getSize . size $ tag x1)) x2
+
+-- FUNCTIONS FROM HW FOR TESTING
+
+-- safe list indexing function
+(!!?) :: [a] -> Int -> Maybe a
+[]     !!? _         = Nothing
+_      !!? i | i < 0 = Nothing
+(x:_)  !!? 0         = Just x
+(_:xs) !!? i         = xs !!? (i-1)
+
+-- Converts JL to list
+jlToList :: JoinList m a -> [a]
+jlToList Empty            = []
+jlToList (Single _ a)     = [a]
+jlToList (Append _ l1 l2) = jlToList l1 ++ jlToList l2
+
+constructTree :: String -> JoinList Size Char
+constructTree []     = Empty
+constructTree (x:[]) = Single (Size 1) x
+constructTree (x:xs) = (constructTree [x]) +++ (constructTree xs)
