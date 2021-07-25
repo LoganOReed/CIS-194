@@ -45,9 +45,9 @@ indexJ _ (Single _ _) = Nothing
 -- CASE: If not a leaf, go to right if index is greater than left
 --  else go left
 indexJ n (Append _ x1 x2) 
-    | n <= 0           = Nothing
-    | n <= (getSize (size (tag x1))) = indexJ n x1
-    | otherwise        = indexJ (n - (getSize . size $ tag x1)) x2
+    | n <= 0                         = Nothing
+    | n <= getSize (size (tag x1)) = indexJ n x1
+    | otherwise                      = indexJ (n - (getSize . size $ tag x1)) x2
 
 -- FUNCTIONS FROM HW FOR TESTING
 
@@ -64,7 +64,46 @@ jlToList Empty            = []
 jlToList (Single _ a)     = [a]
 jlToList (Append _ l1 l2) = jlToList l1 ++ jlToList l2
 
-constructTree :: String -> JoinList Size Char
-constructTree []     = Empty
-constructTree (x:[]) = Single (Size 1) x
-constructTree (x:xs) = (constructTree [x]) +++ (constructTree xs)
+-- transforms a tree into a JL
+stringToJL :: String -> JoinList Size Char
+stringToJL []     = Empty
+stringToJL [x]    = Single (Size 1) x
+stringToJL (x:xs) = stringToJL [x] +++ stringToJL xs
+
+-- Takes a string and its index and returns the char at that index
+findChar :: Int -> String -> Maybe Char
+findChar n x = indexJ n (stringToJL x)
+
+--------------------
+-- EXERCISE THREE --
+--------------------
+
+-- Implementation of drop function
+-- I'm going to assume that if root has a size of n, there exists
+--  for every i < n some Node that has that size
+dropJ :: (Sized b, Monoid b) =>
+          Int -> JoinList b a -> JoinList b a
+dropJ n x
+    | n <= 0                        = x
+    | n >= getSize (size (tag x)) = x
+dropJ n (Append _ _ x2) = dropJ n x2
+dropJ _ _ = Empty
+
+-- STEPS: size is value of Size at root, n is input
+-- IF size < n:
+--      RETURN Empty
+-- IF size == n:
+--      RETURN root
+-- IF size > n:
+-- return (dropJ' n x1) +++ (dropJ' (n-size(x1) x2)
+-- essentially, take as much from the left child and take the 
+--      rest from the right one
+
+-- Divide and Conquer Way
+dropJ' :: (Sized b, Monoid b) =>
+          Int -> JoinList b a -> JoinList b a
+dropJ' n x@(Append m x1 x2)
+    | n < getSize (size m) = x
+    | otherwise              = Empty
+dropJ' n x@(Single _ _) = x
+dropJ' _ _              = Empty
