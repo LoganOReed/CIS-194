@@ -14,3 +14,8 @@ instance Monoid E.GuestList where
 -- Adds an Employee to the GuestList
 glCons :: E.Employee -> E.GuestList -> E.GuestList
 glCons emp (E.GL gs f) = E.GL (emp:gs) (f + (E.empFun emp))
+
+moreFun :: E.GuestList -> E.GuestList -> E.GuestList
+moreFun x1@(E.GL _ fun1) x2@(E.GL _ fun2)
+    | fun1 >= fun2 = x1
+    | otherwise    = x2
