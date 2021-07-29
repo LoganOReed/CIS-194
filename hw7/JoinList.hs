@@ -4,6 +4,27 @@ module JoinList where
 
 import Sized
 
+
+--
+--
+--
+--
+--
+--
+--
+--
+--   GETTING THIS FUCKING IDE PLUGIN TO WORK IS MAKING ME LOSE MY MINDDDDDDDD!!!!!!!!!!
+--
+--
+--
+--
+--
+--
+--
+--
+--
+
+
 ------------------
 -- EXERCISE ONE --
 ------------------
@@ -27,9 +48,9 @@ tag (Append m _ _) = m
 (+++) :: Monoid m => JoinList m a -> JoinList m a -> JoinList m a
 (+++) x1 x2 = Append (mappend (tag x1) (tag x2)) x1 x2
 
-------------------
--- EXERCISE TWO --
-------------------
+----------------------
+-- EXERCISE TWO ONE --
+----------------------
 
 -- Returns the JoinList elem at the specified index if it exists
 -- I'm not really sure how Sized works, but I think each node, not
@@ -74,10 +95,15 @@ stringToJL (x:xs) = stringToJL [x] +++ stringToJL xs
 findChar :: Int -> String -> Maybe Char
 findChar n x = indexJ n (stringToJL x)
 
---------------------
--- EXERCISE THREE --
---------------------
+----------------------
+-- EXERCISE TWO TWO --
+----------------------
 
+{-
+ - PROCEDURE: Binary Search on the heap
+ -}
+
+{- IM SAVING THIS IN CASE, BUT IT DONT WORK
 -- Implementation of drop function
 -- I'm going to assume that if root has a size of n, there exists
 --  for every i < n some Node that has that size
@@ -107,3 +133,4 @@ dropJ' n x@(Append m x1 x2)
     | otherwise              = Empty
 dropJ' n x@(Single _ _) = x
 dropJ' _ _              = Empty
+-}
